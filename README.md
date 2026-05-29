@@ -60,6 +60,7 @@ Current public Claude Code models in the curated registry:
 
 - `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
 - `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
+- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
 
 ## What It Does
 

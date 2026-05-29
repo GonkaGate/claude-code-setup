@@ -60,10 +60,11 @@ These decisions are part of the repo contract. Changing them is not a small refa
 - local scope must protect `.claude/settings.local.json` from git before secrets are written
 - settings files must be written with owner-only permissions
 
-Current honest limitation:
+Current curated public Claude Code model registry:
 
-- the curated registry currently contains exactly one supported model:
-  `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
+- `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
+- `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
+- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
 
 ## What the Repo Does and Does Not Do
 

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Added curated model support for `minimax-m2.7` -> `minimaxai/minimax-m2.7` in the installer model picker and docs.
 - Added curated model support for `kimi-k2.6` -> `moonshotai/Kimi-K2.6` in the installer model picker and docs.
 - Made local alias package bootstrap publish without npm provenance because provenance requires a supported CI/OIDC provider.
 - Made alias package publishing skip cleanly until `@gonkagate/claude-code-setup` is bootstrapped on npm, with an explicit override for the first package publish.

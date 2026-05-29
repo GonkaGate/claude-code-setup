@@ -20,6 +20,13 @@ const curatedModelRegistry = [
     modelId: "moonshotai/Kimi-K2.6",
     description: "GonkaGate public Claude Code model.",
     isDefault: true
+  },
+  {
+    key: "minimax-m2.7",
+    displayName: "MiniMax M2.7",
+    modelId: "minimaxai/minimax-m2.7",
+    description: "GonkaGate public Claude Code model.",
+    isDefault: false
   }
 ] as const satisfies readonly SupportedModelDefinition[];
 
