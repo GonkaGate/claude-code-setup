@@ -87,6 +87,12 @@ test("supported model registry includes kimi-k2.6", () => {
   assert.equal(model.modelId, "moonshotai/Kimi-K2.6");
 });
 
+test("supported model registry includes minimax-m2.7", () => {
+  const model = requireSupportedModel("minimax-m2.7");
+
+  assert.equal(model.modelId, "minimaxai/minimax-m2.7");
+});
+
 test("loadSettings rejects invalid JSON instead of overwriting it", async () => {
   const directory = await mkdtemp(path.join(tmpdir(), "gonkagate-invalid-json-"));
   const filePath = path.join(directory, "settings.json");

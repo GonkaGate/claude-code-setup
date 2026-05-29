@@ -18,6 +18,7 @@ Today that curated list contains:
 
 - `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
 - `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
+- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
 
 If that model is unavailable, the likely cause is a backend deployment or model availability mismatch. This installer does not expose custom base URL or arbitrary custom model overrides, so the right next step is GonkaGate support or the backend troubleshooting docs in `gonka-proxy`.
 
