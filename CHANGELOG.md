@@ -22,6 +22,14 @@
 - Restored automated npm publish dispatch after Release Please creates a new release tag.
 - Made publish reruns skip versions that are already present on npm instead of failing with a duplicate-version error.
 
+## [0.4.0](https://github.com/GonkaGate/claude-code-setup/compare/v0.3.0...v0.4.0) (2026-05-29)
+
+
+### Features
+
+* add minimax-m2.7 to model registry ([0c8f857](https://github.com/GonkaGate/claude-code-setup/commit/0c8f8571d5153c46c2ca1f8a7adc9933f53d1ae4))
+* add minimax-m2.7 to model registry ([887de0a](https://github.com/GonkaGate/claude-code-setup/commit/887de0aed2cb9e59c7da0e60094f80dc0fdd016d))
+
 ## [0.3.0](https://github.com/GonkaGate/claude-code-setup/compare/v0.2.1...v0.3.0) (2026-04-29)
 
 
