@@ -22,6 +22,14 @@
 - Restored automated npm publish dispatch after Release Please creates a new release tag.
 - Made publish reruns skip versions that are already present on npm instead of failing with a duplicate-version error.
 
+## [0.4.1](https://github.com/GonkaGate/claude-code-setup/compare/v0.4.0...v0.4.1) (2026-06-09)
+
+
+### Bug Fixes
+
+* align npm package metadata with canonical repository ([cbddf8f](https://github.com/GonkaGate/claude-code-setup/commit/cbddf8fe3e49aea1a7bdb4c016c8fdc340053449))
+* align npm package metadata with canonical repository ([e392ac1](https://github.com/GonkaGate/claude-code-setup/commit/e392ac193451bf276a2e38c99e6b641bdd50741f))
+
 ## [0.4.0](https://github.com/GonkaGate/claude-code-setup/compare/v0.3.0...v0.4.0) (2026-05-29)
 
 
