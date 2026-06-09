@@ -2,13 +2,13 @@
   "name": "@gonkagate/claude-code",
   "version": "0.4.0",
   "description": "CLI installer for using Claude Code with GonkaGate on Gonka Network.",
-  "homepage": "https://github.com/GonkaGate/gonkagate-claude-code#readme",
+  "homepage": "https://github.com/GonkaGate/claude-code-setup#readme",
   "bugs": {
-    "url": "https://github.com/GonkaGate/gonkagate-claude-code/issues"
+    "url": "https://github.com/GonkaGate/claude-code-setup/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GonkaGate/gonkagate-claude-code.git"
+    "url": "git+https://github.com/GonkaGate/claude-code-setup.git"
   },
   "type": "module",
   "bin": {

@@ -21,7 +21,7 @@ npx @gonkagate/claude-code
 
 From API key to a working Claude Code setup in one short walkthrough:
 
-[![See the installer in action](https://raw.githubusercontent.com/GonkaGate/gonkagate-claude-code/main/.github/assets/gonkagate-claude-code-demo.gif)](https://raw.githubusercontent.com/GonkaGate/gonkagate-claude-code/main/.github/assets/gonkagate-claude-code-demo.mp4)
+[![See the installer in action](https://raw.githubusercontent.com/GonkaGate/claude-code-setup/main/.github/assets/gonkagate-claude-code-demo.gif)](https://raw.githubusercontent.com/GonkaGate/claude-code-setup/main/.github/assets/gonkagate-claude-code-demo.mp4)
 
 Need an API key first? [Create one on GonkaGate](https://gonkagate.com/en).
 
@@ -116,9 +116,9 @@ After setup:
 
 ## Need Help?
 
-- Troubleshooting: [docs/troubleshooting.md](https://github.com/GonkaGate/gonkagate-claude-code/blob/main/docs/troubleshooting.md)
-- Security notes: [docs/security.md](https://github.com/GonkaGate/gonkagate-claude-code/blob/main/docs/security.md)
-- Internal behavior: [docs/how-it-works.md](https://github.com/GonkaGate/gonkagate-claude-code/blob/main/docs/how-it-works.md)
+- Troubleshooting: [docs/troubleshooting.md](https://github.com/GonkaGate/claude-code-setup/blob/main/docs/troubleshooting.md)
+- Security notes: [docs/security.md](https://github.com/GonkaGate/claude-code-setup/blob/main/docs/security.md)
+- Internal behavior: [docs/how-it-works.md](https://github.com/GonkaGate/claude-code-setup/blob/main/docs/how-it-works.md)
 
 ## Development
 
