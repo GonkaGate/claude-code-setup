@@ -10,9 +10,9 @@ npx @gonkagate/claude-code
 ![Node](https://img.shields.io/badge/node-%3E%3D18-4DA2FF?style=flat-square)
 ![License](https://img.shields.io/badge/license-Apache--2.0-2A2A2A?style=flat-square)
 
-[![Website](https://img.shields.io/badge/Website-gonkagate.com-111827?style=flat-square)](https://gonkagate.com/en)
-[![Docs](https://img.shields.io/badge/Docs-API%20Guides-2563EB?style=flat-square)](https://gonkagate.com/en/docs)
-[![API%20Key](https://img.shields.io/badge/API%20Key-Dashboard-F97316?style=flat-square)](https://gonkagate.com/en/register)
+[![Website](https://img.shields.io/badge/Website-gonkagate.com-111827?style=flat-square)](https://gonkagate.com/en?utm_source=github&utm_medium=referral&utm_campaign=claude_code_setup&utm_content=readme_badge_website)
+[![Docs](https://img.shields.io/badge/Docs-API%20Guides-2563EB?style=flat-square)](https://gonkagate.com/en/docs?utm_source=github&utm_medium=referral&utm_campaign=claude_code_setup&utm_content=readme_badge_docs)
+[![API%20Key](https://img.shields.io/badge/API%20Key-Dashboard-F97316?style=flat-square)](https://gonkagate.com/en/register?utm_source=github&utm_medium=referral&utm_campaign=claude_code_setup&utm_content=readme_badge_api_key)
 [![Telegram](https://img.shields.io/badge/Telegram-%40gonkagate-229ED9?style=flat-square&logo=telegram&logoColor=white)](https://t.me/gonkagate)
 [![X](https://img.shields.io/badge/X-%40gonkagate-000000?style=flat-square&logo=x&logoColor=white)](https://x.com/gonkagate)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-GonkaGate-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/company/gonkagate)
@@ -23,7 +23,7 @@ From API key to a working Claude Code setup in one short walkthrough:
 
 [![See the installer in action](https://raw.githubusercontent.com/GonkaGate/claude-code-setup/main/.github/assets/gonkagate-claude-code-demo.gif)](https://raw.githubusercontent.com/GonkaGate/claude-code-setup/main/.github/assets/gonkagate-claude-code-demo.mp4)
 
-Need an API key first? [Create one on GonkaGate](https://gonkagate.com/en).
+Need an API key first? [Create one on GonkaGate](https://gonkagate.com/en?utm_source=github&utm_medium=referral&utm_campaign=claude_code_setup&utm_content=readme_api_key_cta).
 
 ## Overview
 
