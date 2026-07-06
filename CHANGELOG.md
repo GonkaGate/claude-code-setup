@@ -23,6 +23,13 @@
 - Restored automated npm publish dispatch after Release Please creates a new release tag.
 - Made publish reruns skip versions that are already present on npm instead of failing with a duplicate-version error.
 
+## [0.5.0](https://github.com/GonkaGate/claude-code-setup/compare/v0.4.1...v0.5.0) (2026-07-06)
+
+
+### Features
+
+* fetch GonkaGate models dynamically ([2e3b8d9](https://github.com/GonkaGate/claude-code-setup/commit/2e3b8d9141e4b962eb81af01f6ae6a86c2009ebe))
+
 ## [0.4.1](https://github.com/GonkaGate/claude-code-setup/compare/v0.4.0...v0.4.1) (2026-06-09)
 
 

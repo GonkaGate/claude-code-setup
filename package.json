@@ -1,6 +1,6 @@
 {
   "name": "@gonkagate/claude-code",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "CLI installer for using Claude Code with GonkaGate on Gonka Network.",
   "homepage": "https://github.com/GonkaGate/claude-code-setup#readme",
   "bugs": {
