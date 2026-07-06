@@ -2,17 +2,17 @@ import process from "node:process";
 import { basename } from "node:path";
 import { pathToFileURL } from "node:url";
 import { Command, CommanderError, Option } from "commander";
-import { DEFAULT_MODEL_KEY, SUPPORTED_MODELS, SUPPORTED_MODEL_KEYS, requireSupportedModel } from "./constants/models.js";
 import { createBackup } from "./install/backup.js";
 import { loadSettings } from "./install/load-settings.js";
 import { ensureLocalSettingsIgnored, stopTrackingLocalSettings, TrackedLocalSettingsError } from "./install/local-git-ignore.js";
 import { mergeSettingsWithGonkaEnv } from "./install/merge-env.js";
+import { fetchGonkaGateModels, getDefaultModel, requireModelById } from "./install/models.js";
 import { promptForApiKey, promptForModel, promptForScope, promptForTrackedLocalSettingsAction } from "./install/prompts.js";
 import { getSettingsTarget } from "./install/settings-paths.js";
 import { validateApiKey } from "./install/validate-api-key.js";
 import { writeSettings } from "./install/write-settings.js";
 import type { InstallScope, SettingsTarget } from "./types/settings.js";
-import type { SupportedModel, SupportedModelKey } from "./constants/models.js";
+import type { GonkaGateModel } from "./install/models.js";
 import type { TrackedLocalSettingsAction } from "./install/prompts.js";
 
 const DEFAULT_COMMAND_NAME = "gonkagate-claude-code";
@@ -21,12 +21,12 @@ interface CliOptions {
   help: boolean;
   version: boolean;
   scope?: InstallScope;
-  modelKey?: SupportedModelKey;
+  modelId?: string;
 }
 
 interface ParsedProgramOptions {
   scope?: InstallScope;
-  model?: SupportedModelKey;
+  model?: string;
 }
 
 interface ProgramOutput {
@@ -41,16 +41,11 @@ function rejectApiKeyArgs(argv: string[]): void {
 }
 
 function createProgram(output?: ProgramOutput, commandName = DEFAULT_COMMAND_NAME): Command {
-  const supportedModelLines = SUPPORTED_MODELS.map((model) => {
-    const defaultSuffix = model.key === DEFAULT_MODEL_KEY ? " (default)" : "";
-    return `  ${model.key}  ${model.displayName}${defaultSuffix}`;
-  }).join("\n");
-
   const program = new Command()
     .name(commandName)
     .description("GonkaGate Claude Code installer")
     .addOption(
-      new Option("--model <model-key>", "Skip the model prompt with a curated supported model.").choices(SUPPORTED_MODEL_KEYS)
+      new Option("--model <model-id>", "Skip the model prompt with a model id returned by /v1/models.")
     )
     .addOption(new Option("--scope <scope>", "Skip the scope prompt. Choose user or local.").choices(["user", "local"]))
     .helpOption("-h, --help", "Show this help.")
@@ -61,11 +56,10 @@ function createProgram(output?: ProgramOutput, commandName = DEFAULT_COMMAND_NAM
 Examples:
   npx @gonkagate/claude-code
   npx @gonkagate/claude-code-setup
-  npx @gonkagate/claude-code --model ${DEFAULT_MODEL_KEY}
+  npx @gonkagate/claude-code --model <model-id>
   npx @gonkagate/claude-code --scope local
 
-Supported model keys:
-${supportedModelLines}
+Models are fetched from https://api.gonkagate.com/v1/models with your GonkaGate API key.
 `
     )
     .exitOverride();
@@ -88,7 +82,7 @@ export function parseCliOptions(argv: string[], output?: ProgramOutput, commandN
     help: false,
     version: false,
     scope: options.scope,
-    modelKey: options.model
+    modelId: options.model
   };
 }
 
@@ -103,18 +97,18 @@ function printIntro(): void {
   console.log("Connect Claude Code to GonkaGate in one step.\n");
   console.log("This installer writes Claude Code settings for GonkaGate's public gateway.");
   console.log("Base URL is fixed to https://api.gonkagate.com and is not configurable.");
-  console.log(`Model choice is limited to the curated GonkaGate-supported list: ${SUPPORTED_MODEL_KEYS.join(", ")}.\n`);
+  console.log("Model choices are fetched from https://api.gonkagate.com/v1/models with your API key.\n");
 }
 
 function printSuccess(
   targetPath: string,
   scope: InstallScope,
-  selectedModel: SupportedModel,
+  selectedModel: GonkaGateModel,
   backupPath?: string
 ): void {
   console.log("\nInstall complete.\n");
   console.log(`Updated: ${targetPath}`);
-  console.log(`Model: ${selectedModel.displayName} (${selectedModel.modelId})`);
+  console.log(`Model: ${selectedModel.name} (${selectedModel.id})`);
 
   if (backupPath) {
     console.log(`Backup: ${backupPath}`);
@@ -175,9 +169,11 @@ export async function run(argv = process.argv.slice(2), commandName = getCommand
   printIntro();
 
   const apiKey = validateApiKey(await promptForApiKey());
-  const selectedModel = options.modelKey
-    ? requireSupportedModel(options.modelKey)
-    : await promptForModel(SUPPORTED_MODELS, DEFAULT_MODEL_KEY);
+  const models = await fetchGonkaGateModels(apiKey);
+  const defaultModel = getDefaultModel(models);
+  const selectedModel = options.modelId
+    ? requireModelById(models, options.modelId)
+    : await promptForModel(models, defaultModel.id);
   const requestedScope = options.scope ?? (await promptForScope("user"));
   const target = await resolveSettingsTarget(requestedScope, process.cwd());
 

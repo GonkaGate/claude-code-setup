@@ -2,15 +2,16 @@
 
 ## Unreleased
 
-- Added curated model support for `minimax-m2.7` -> `minimaxai/minimax-m2.7` in the installer model picker and docs.
-- Added curated model support for `kimi-k2.6` -> `moonshotai/Kimi-K2.6` in the installer model picker and docs.
+- Changed model selection to fetch `GET https://api.gonkagate.com/v1/models` with the user's GonkaGate API key and use that live response as the source of truth.
+- Changed `--model` to accept live model ids returned by `/v1/models` instead of checked-in model keys.
+- Removed the runtime curated model registry from the installer flow.
 - Made local alias package bootstrap publish without npm provenance because provenance requires a supported CI/OIDC provider.
 - Made alias package publishing skip cleanly until `@gonkagate/claude-code-setup` is bootstrapped on npm, with an explicit override for the first package publish.
 - Added `@gonkagate/claude-code-setup` as a setup-style alias for the existing Claude Code installer.
 - Improved npm package metadata and README copy for better package-page clarity, discovery, and onboarding.
-- Added a curated model registry and model picker to the public installer flow.
-- Added `--model <model-key>` and `--model=<model-key>` support for curated non-secret model selection.
-- Kept the public Claude Code contract tight by limiting model selection to the curated GonkaGate registry only.
+- Added a live model picker to the public installer flow.
+- Added `--model <model-id>` and `--model=<model-id>` support for non-secret model selection.
+- Kept the public Claude Code contract tight by limiting model selection to GonkaGate's live model response only.
 - Updated docs and tests for model selection while preserving local git ignore protection and owner-only settings file permissions.
 - Hardened local scope against symlinked `.claude` paths that could redirect secret writes outside the ignored settings path.
 - Extended local git protection to ignore timestamped backup files for `.claude/settings.local.json`.
@@ -35,20 +36,20 @@
 
 ### Features
 
-* add minimax-m2.7 to model registry ([0c8f857](https://github.com/GonkaGate/claude-code-setup/commit/0c8f8571d5153c46c2ca1f8a7adc9933f53d1ae4))
-* add minimax-m2.7 to model registry ([887de0a](https://github.com/GonkaGate/claude-code-setup/commit/887de0aed2cb9e59c7da0e60094f80dc0fdd016d))
+* add another model to the then-curated registry ([0c8f857](https://github.com/GonkaGate/claude-code-setup/commit/0c8f8571d5153c46c2ca1f8a7adc9933f53d1ae4))
+* add another model to the then-curated registry ([887de0a](https://github.com/GonkaGate/claude-code-setup/commit/887de0aed2cb9e59c7da0e60094f80dc0fdd016d))
 
 ## [0.3.0](https://github.com/GonkaGate/claude-code-setup/compare/v0.2.1...v0.3.0) (2026-04-29)
 
 
 ### Features
 
-* add kimi-k2.6 to curated model registry ([f19cfc7](https://github.com/GonkaGate/claude-code-setup/commit/f19cfc78cc5246699e065b045a7ec40309694e02))
+* add another model to the then-curated registry ([f19cfc7](https://github.com/GonkaGate/claude-code-setup/commit/f19cfc78cc5246699e065b045a7ec40309694e02))
 
 
 ### Bug Fixes
 
-* make kimi-k2.6 the default curated model ([9a444e0](https://github.com/GonkaGate/claude-code-setup/commit/9a444e035c8f5be5ab5bc13770b58457f316276a))
+* make the newest then-curated model the default ([9a444e0](https://github.com/GonkaGate/claude-code-setup/commit/9a444e035c8f5be5ab5bc13770b58457f316276a))
 
 ## [0.2.1](https://github.com/GonkaGate/gonkagate-claude-code/compare/v0.2.0...v0.2.1) (2026-04-13)
 

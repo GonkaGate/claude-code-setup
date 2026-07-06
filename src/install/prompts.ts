@@ -1,6 +1,7 @@
 import process from "node:process";
 import { password, select } from "@inquirer/prompts";
-import type { SupportedModel, SupportedModelKey } from "../constants/models.js";
+import { requireModelById } from "./models.js";
+import type { GonkaGateModel } from "./models.js";
 import type { InstallScope } from "../types/settings.js";
 
 export type TrackedLocalSettingsAction = "untrack" | "user" | "cancel";
@@ -110,23 +111,23 @@ export async function promptForTrackedLocalSettingsAction(
 }
 
 export function buildModelPromptConfig(
-  models: readonly SupportedModel[],
-  defaultModelKey: SupportedModelKey
-): SelectPromptConfig<SupportedModelKey> {
+  models: readonly GonkaGateModel[],
+  defaultModelId: string
+): SelectPromptConfig<string> {
   if (models.length === 0) {
-    throw new Error("No supported GonkaGate models are configured.");
+    throw new Error("No GonkaGate models are available.");
   }
 
-  const defaultModel = requireDefaultModel(models, defaultModelKey);
+  const defaultModel = requireModelById(models, defaultModelId);
 
   return {
     message: "Choose a GonkaGate model",
-    default: defaultModel.key,
+    default: defaultModel.id,
     choices: models.map((model) => ({
-      value: model.key,
-      name: model.displayName,
-      short: model.key,
-      description: `${model.description ? `${model.description} ` : ""}Model ID: ${model.modelId}`
+      value: model.id,
+      name: model.name === model.id ? model.id : `${model.name} (${model.id})`,
+      short: model.id,
+      description: `Model ID: ${model.id}`
     })),
     pageSize: Math.min(models.length, 8),
     loop: false,
@@ -137,22 +138,12 @@ export function buildModelPromptConfig(
 }
 
 export async function promptForModel(
-  models: readonly SupportedModel[],
-  defaultModelKey: SupportedModelKey,
-  selectPrompt: SelectPrompt<SupportedModelKey> = select as SelectPrompt<SupportedModelKey>
-): Promise<SupportedModel> {
-  const selectedModelKey = await selectPrompt(buildModelPromptConfig(models, defaultModelKey)).catch(rethrowPromptExit);
-  return requireDefaultModel(models, selectedModelKey);
-}
-
-function requireDefaultModel(models: readonly SupportedModel[], defaultModelKey: SupportedModelKey): SupportedModel {
-  const defaultModel = models.find((model) => model.key === defaultModelKey);
-
-  if (!defaultModel) {
-    throw new Error(`Default model "${defaultModelKey}" is not present in the supported model registry.`);
-  }
-
-  return defaultModel;
+  models: readonly GonkaGateModel[],
+  defaultModelId: string,
+  selectPrompt: SelectPrompt<string> = select as SelectPrompt<string>
+): Promise<GonkaGateModel> {
+  const selectedModelId = await selectPrompt(buildModelPromptConfig(models, defaultModelId)).catch(rethrowPromptExit);
+  return requireModelById(models, selectedModelId);
 }
 
 function rethrowPromptExit(error: unknown): never {

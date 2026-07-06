@@ -26,7 +26,7 @@ npx @gonkagate/claude-code-setup
 The happy-path installer interactively prompts only for:
 
 - a `gp-...` API key
-- a model picker from the curated allowlist
+- a model picker from `GET https://api.gonkagate.com/v1/models` using that API key
 - install scope: `user` or `local`
 
 If the user chooses `local` scope and `.claude/settings.local.json` is already tracked by git, the installer shows a short recovery prompt so the user can either:
@@ -47,7 +47,7 @@ These decisions are part of the repo contract. Changing them is not a small refa
 - `ANTHROPIC_BASE_URL` is always `https://api.gonkagate.com`
 - users do not choose the base URL and cannot override it
 - the default auth path is `ANTHROPIC_AUTH_TOKEN`
-- model choice comes only from a code-owned curated registry
+- model choice comes only from the live `/v1/models` response for the user's API key
 - the primary UX is `npx @gonkagate/claude-code`
 - the setup-style alias is `npx @gonkagate/claude-code-setup`
 - API key entry must remain interactive and hidden
@@ -60,11 +60,7 @@ These decisions are part of the repo contract. Changing them is not a small refa
 - local scope must protect `.claude/settings.local.json` from git before secrets are written
 - settings files must be written with owner-only permissions
 
-Current curated public Claude Code model registry:
-
-- `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
-- `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
-- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
+The GonkaGate `/v1/models` response is the source of truth for public Claude Code model availability. New or removed GonkaGate models must not require repository updates.
 
 ## What the Repo Does and Does Not Do
 
@@ -84,7 +80,7 @@ This repo does not do:
 - backend changes
 - shell profile mutation
 - custom base URL setup
-- arbitrary custom model setup
+- model IDs outside the live GonkaGate `/v1/models` response
 
 ## Repository Structure
 
@@ -102,13 +98,13 @@ This repo does not do:
 ├── src/
 │   ├── cli.ts
 │   ├── constants/
-│   │   ├── gateway.ts
-│   │   └── models.ts
+│   │   └── gateway.ts
 │   ├── install/
 │   │   ├── backup.ts
 │   │   ├── load-settings.ts
 │   │   ├── local-git-ignore.ts
 │   │   ├── merge-env.ts
+│   │   ├── models.ts
 │   │   ├── object-utils.ts
 │   │   ├── prompts.ts
 │   │   ├── settings-paths.ts
@@ -141,7 +137,9 @@ It is responsible for:
 - parsing CLI args through `commander`
 - rendering help and version output
 - running the hidden API key prompt
+- fetching `GET https://api.gonkagate.com/v1/models` with Bearer auth
 - selecting the model
+- validating `--model` against the fetched live model ids
 - selecting the scope
 - determining the target settings file
 - running local git-ignore protection for `local` scope
@@ -156,7 +154,6 @@ It is responsible for:
 This is where the fixed product values live:
 
 - `gateway.ts` stores the public base URL and Claude Code JSON schema URL
-- `models.ts` stores the curated supported model registry and default entry
 
 This is one of the most sensitive parts of the repo. Do not add extra configurability here without an explicit product decision.
 
@@ -165,7 +162,7 @@ This is one of the most sensitive parts of the repo. Do not add extra configurab
 This file contains the interactive prompts built on top of `@inquirer/prompts`:
 
 - hidden prompt for API key
-- model picker from the curated registry
+- model picker from the fetched live GonkaGate model list
 - scope picker
 - tracked-local-settings recovery picker when `.claude/settings.local.json` is already tracked by git
 
@@ -197,7 +194,7 @@ It must:
 - preserve unrelated top-level keys
 - preserve unrelated `env` keys
 - write all GonkaGate-managed env keys
-- apply the selected curated model to all Claude model env vars
+- apply the selected live model id to all Claude model env vars
 - remove `ANTHROPIC_API_KEY`
 - add `$schema` if it is missing
 
@@ -259,6 +256,7 @@ Baseline tests cover:
 
 - merge behavior
 - model selection behavior
+- live `/v1/models` response parsing and fetch behavior
 - invalid JSON handling
 - backup/write flow
 - API key validation
@@ -267,7 +265,7 @@ Baseline tests cover:
 
 1. The user runs `npx @gonkagate/claude-code` or the setup-style alias `npx @gonkagate/claude-code-setup`
 2. The installer securely prompts for a `gp-...` API key
-3. The installer shows the curated model picker
+3. The installer fetches `GET https://api.gonkagate.com/v1/models` with Bearer auth and shows the live model picker
 4. The installer asks for scope: `user` or `local`
 5. The target settings file is resolved
 6. For `local` scope, the target path is validated to stay repo-local, the installer adds an ignore entry to `.git/info/exclude` when local write proceeds, and if `.claude/settings.local.json` is already tracked by git it offers to stop tracking that file or switch to `user` scope
@@ -350,7 +348,7 @@ Pause and double-check if your change touches:
 - backup and restore behavior
 - git ignore behavior for local scope
 - default auth path
-- the curated model registry
+- live model fetch or validation behavior
 - the public install command
 
 ## Repo Philosophy
