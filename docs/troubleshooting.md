@@ -12,42 +12,36 @@ The installer writes Claude Code settings, but an existing direct login can stil
 
 ## Model unavailable
 
-This installer writes the selected model from its curated GonkaGate-supported registry.
+This installer fetches models from `GET https://api.gonkagate.com/v1/models` with your GonkaGate API key and writes the selected live model id.
 
-Today that curated list contains:
+If a selected model is unavailable, rerun the installer so it can fetch the current `/v1/models` response for your key. If the model is still returned but fails in Claude Code, the likely cause is a backend deployment or model availability mismatch. This installer does not expose custom base URL or arbitrary model overrides, so the right next step is GonkaGate support or the backend troubleshooting docs in `gonka-proxy`.
 
-- `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
-- `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
-- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
+## Model removed from GonkaGate later
 
-If that model is unavailable, the likely cause is a backend deployment or model availability mismatch. This installer does not expose custom base URL or arbitrary custom model overrides, so the right next step is GonkaGate support or the backend troubleshooting docs in `gonka-proxy`.
-
-## Model removed from the curated list later
-
-If a model disappears from the curated list in a future release of this installer:
+If a model disappears from GonkaGate's `/v1/models` response:
 
 1. Rerun the installer
-2. Choose from the current curated list, or pass a current key with `--model <model-key>`
+2. Choose from the current live list, or pass a current id with `--model <model-id>`
 
 Manual edits to force an old or unsupported model id are outside the supported setup flow.
 
 ## Want to switch models
 
-Rerun the installer and choose a different curated model when prompted.
+Rerun the installer and choose a different live model when prompted.
 
 You can also skip the interactive model prompt with:
 
 ```bash
-npx @gonkagate/claude-code --model <model-key>
+npx @gonkagate/claude-code --model <model-id>
 ```
 
 The setup-style alias accepts the same options:
 
 ```bash
-npx @gonkagate/claude-code-setup --model <model-key>
+npx @gonkagate/claude-code-setup --model <model-id>
 ```
 
-Only current curated keys are accepted.
+Only model ids returned by `/v1/models` for your key are accepted.
 
 ## Corrupted settings file
 

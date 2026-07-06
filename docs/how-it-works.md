@@ -10,18 +10,12 @@ These values are intentionally fixed by the installer:
 
 - Base URL: `https://api.gonkagate.com`
 - Auth variable: `ANTHROPIC_AUTH_TOKEN`
-- Model selection comes only from a curated in-repo allowlist
-
-Today the curated public Claude Code model registry contains:
-
-- `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
-- `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
-- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
+- Model selection comes only from `GET https://api.gonkagate.com/v1/models` using the user's GonkaGate API key
 
 Users provide only:
 
 - a GonkaGate API key starting with `gp-`
-- a supported model choice from the curated list, or `--model <model-key>`
+- a model choice from the live `/v1/models` response, or `--model <model-id>`
 - an install scope: `user` or `local`
 
 ## Target files
@@ -45,7 +39,7 @@ When the target file already exists, the installer:
 2. Refuses to continue if the JSON is invalid
 3. Creates a timestamped backup with owner-only permissions
 4. Preserves unrelated settings
-5. Updates only the relevant `env` keys, including all Claude model env vars with the selected curated model id
+5. Updates only the relevant `env` keys, including all Claude model env vars with the selected live model id
 6. Adds Claude Code's JSON schema if `$schema` is missing
 7. Writes the final settings file with owner-only permissions
 

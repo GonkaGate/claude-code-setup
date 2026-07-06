@@ -43,7 +43,7 @@ For setup-style naming consistency, the alias
 You will be asked for:
 
 - your GonkaGate API key (`gp-...`) in a hidden interactive prompt
-- a model from the supported GonkaGate list
+- a model fetched from GonkaGate's live `/v1/models` response for that key
 - setup scope: `user` or `local`
 
 If you choose `local` scope and `.claude/settings.local.json` is already tracked by git, the installer offers to stop tracking that file and continue, or switch to `user` scope instead.
@@ -54,13 +54,11 @@ You need:
 - Node.js 18+
 - a GonkaGate API key
 
-## Supported Models
+## Model Source
 
-Current public Claude Code models in the curated registry:
+The installer calls `GET https://api.gonkagate.com/v1/models` with your GonkaGate API key and uses that live response as the source of truth for model selection.
 
-- `qwen3-235b` -> `qwen/qwen3-235b-a22b-instruct-2507-fp8`
-- `kimi-k2.6` -> `moonshotai/Kimi-K2.6` (default)
-- `minimax-m2.7` -> `minimaxai/minimax-m2.7`
+New or removed GonkaGate models do not require an installer update. You can skip the model prompt with `--model <model-id>`, but the id must be present in the live `/v1/models` response for your key.
 
 ## What It Does
 
@@ -90,9 +88,9 @@ These parts are intentionally fixed:
 
 - Base URL: `https://api.gonkagate.com`
 - Auth variable: `ANTHROPIC_AUTH_TOKEN`
-- Model choice: only from the curated supported list
+- Model choice: only from `GET https://api.gonkagate.com/v1/models` using your API key
 
-This tool does not ask for a custom base URL and does not accept arbitrary custom model IDs.
+This tool does not ask for a custom base URL and does not accept model IDs outside the live GonkaGate response for your key.
 
 The selected model is written into all Claude Code model env vars used by this setup flow.
 

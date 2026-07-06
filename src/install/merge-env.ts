@@ -1,6 +1,6 @@
 import { CLAUDE_SETTINGS_SCHEMA_URL, GONKAGATE_BASE_URL } from "../constants/gateway.js";
-import type { SupportedModel } from "../constants/models.js";
 import type { ClaudeCodeSettings } from "../types/settings.js";
+import type { GonkaGateModel } from "./models.js";
 import { isPlainObject } from "./object-utils.js";
 
 export const GONKAGATE_ENV_KEYS = [
@@ -13,22 +13,22 @@ export const GONKAGATE_ENV_KEYS = [
   "CLAUDE_CODE_SUBAGENT_MODEL"
 ] as const;
 
-function buildGonkaEnv(apiKey: string, selectedModel: SupportedModel): Record<string, string> {
+function buildGonkaEnv(apiKey: string, selectedModel: GonkaGateModel): Record<string, string> {
   return {
     ANTHROPIC_BASE_URL: GONKAGATE_BASE_URL,
     ANTHROPIC_AUTH_TOKEN: apiKey,
-    ANTHROPIC_MODEL: selectedModel.modelId,
-    ANTHROPIC_DEFAULT_OPUS_MODEL: selectedModel.modelId,
-    ANTHROPIC_DEFAULT_SONNET_MODEL: selectedModel.modelId,
-    ANTHROPIC_DEFAULT_HAIKU_MODEL: selectedModel.modelId,
-    CLAUDE_CODE_SUBAGENT_MODEL: selectedModel.modelId
+    ANTHROPIC_MODEL: selectedModel.id,
+    ANTHROPIC_DEFAULT_OPUS_MODEL: selectedModel.id,
+    ANTHROPIC_DEFAULT_SONNET_MODEL: selectedModel.id,
+    ANTHROPIC_DEFAULT_HAIKU_MODEL: selectedModel.id,
+    CLAUDE_CODE_SUBAGENT_MODEL: selectedModel.id
   };
 }
 
 export function mergeSettingsWithGonkaEnv(
   settings: ClaudeCodeSettings,
   apiKey: string,
-  selectedModel: SupportedModel
+  selectedModel: GonkaGateModel
 ): ClaudeCodeSettings {
   const existingEnv = isPlainObject(settings.env) ? { ...settings.env } : {};
   delete existingEnv.ANTHROPIC_API_KEY;
